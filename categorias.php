@@ -1,8 +1,11 @@
 <?php require_once 'global.php'; ?>
 <?php
+try {
     $categoria = new Categoria();
     $lista = $categoria->listar();
-    
+} catch (Exception $e) {
+    Erro::tratarErro($e);
+}
 //    echo "<pre>";
 //    print_r($lista);
 //    echo "</pre>";
