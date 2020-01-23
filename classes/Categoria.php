@@ -1,6 +1,6 @@
 <?php
 
-require_once 'classes/Conexao.php';
+require_once 'global.php';
 
 class Categoria {
 
@@ -40,6 +40,13 @@ class Categoria {
     
     public function atualizar() {
         $query = "UPDATE categorias SET nome='{$this->nome}' WHERE id={$this->id}";
+        $conexao = Conexao::getConexao();
+        $conexao->exec($query);
+    }
+    
+    public function excluir(){
+        
+        $query = "DELETE FROM categorias WHERE id={$this->id}";
         $conexao = Conexao::getConexao();
         $conexao->exec($query);
     }

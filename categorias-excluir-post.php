@@ -2,12 +2,9 @@
 
 require_once 'global.php';
 
-$id = $_POST['id'];
-$nome = $_POST['nome'];
+$id = $_GET['id'];
 
 $categoria = new Categoria($id);
-$categoria->nome = $nome;
-
-$categoria->atualizar();
+$categoria->excluir();
 
 header("Location: categorias.php");
