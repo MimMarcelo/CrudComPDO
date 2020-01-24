@@ -6,9 +6,9 @@ class Categoria {
 
     public $id;
     public $nome;
-    
+
     public function __construct($id = false) {
-        if($id){
+        if ($id) {
             $this->id = $id;
             $this->carregar();
         }
@@ -24,31 +24,39 @@ class Categoria {
     }
 
     public function carregar() {
-        $query = "SELECT id, nome FROM categorias WHERE id={$this->id}";
+        $query = "SELECT id, nome FROM categorias WHERE id=:id";
         $conexao = Conexao::getConexao();
-        $resultado = $conexao->query($query);
-        $lista = $resultado->fetchAll();
-        foreach ($lista as $linha) {
-            $this->nome = $linha['nome'];
-        }
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(":id", $this->id);
+        $stmt->execute();
+        $linha = $stmt->fetch();
+        $this->nome = $linha['nome'];
     }
-    
+
     public function inserir() {
-        $query = "INSERT INTO categorias (nome) VALUES ('{$this->nome}')";
+        $query = "INSERT INTO categorias (nome) VALUES (:nome)";
         $conexao = Conexao::getConexao();
-        $conexao->exec($query);
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(":nome", $this->nome);
+        $stmt->execute();
     }
-    
+
     public function atualizar() {
-        $query = "UPDATE categorias SET nome='{$this->nome}' WHERE id={$this->id}";
+        $query = "UPDATE categorias SET nome=:nome WHERE id=:id";
         $conexao = Conexao::getConexao();
-        $conexao->exec($query);
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(":id", $this->id);
+        $stmt->bindValue(":nome", $this->nome);
+        $stmt->execute();
     }
-    
-    public function excluir(){
-        
-        $query = "DELETE FROM categorias WHERE id={$this->id}";
+
+    public function excluir() {
+
+        $query = "DELETE FROM categorias WHERE id=:id";
         $conexao = Conexao::getConexao();
-        $conexao->exec($query);
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(":id", $this->id);
+        $stmt->execute();
     }
+
 }
