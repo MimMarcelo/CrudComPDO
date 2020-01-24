@@ -26,6 +26,16 @@ class Produto {
         return $lista;
     }
 
+    public static function listarPorCategoria($categoria_id){
+        
+        $query = "SELECT id, nome, preco, quantidade, categoria_id FROM produtos "
+                . "WHERE categoria_id=:categoria_id";
+        $conexao = Conexao::getConexao();
+        $stmt = $conexao->prepare($query);
+        $stmt->bindValue(":categoria_id", $categoria_id);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
     public function carrregar() {
         $query = "SELECT nome, preco, quantidade, categoria_id FROM produtos "
                 . "WHERE id=:id";

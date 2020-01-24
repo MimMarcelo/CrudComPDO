@@ -1,4 +1,14 @@
 <?php require_once 'global.php' ?>
+<?php
+try {
+    $id = $_GET['id'];
+    $categoria = new Categoria($id);
+    $categoria->carregarProdutos();
+} catch (Exception $ex) {
+    
+}
+?>
+<?php require_once 'cabecalho.php' ?>
 <div class="row">
     <div class="col-md-12">
         <h2>Detalhe da Categoria</h2>
@@ -7,14 +17,15 @@
 
 <dl>
     <dt>ID</dt>
-    <dd>1</dd>
+    <dd><?= $categoria->id ?></dd>
     <dt>Nome</dt>
-    <dd>Livros</dd>
+    <dd><?= $categoria->nome ?></dd>
     <dt>Produtos</dt>
     <dd>
         <ul>
-            <li><a href="/produtos-editar.php">Senhor dos Aneis</a></li>
-            <li><a href="/produtos-editar.php">O Guia do Mochileiro das Galáxias</a></li>
+            <?php foreach ($categoria->produtos as $produto): ?>
+                <li><a href="/produtos-editar.php?id=<?= $produto['id'] ?>"><?= $produto['nome'] ?></a></li>
+            <?php endforeach; ?>
         </ul>
     </dd>
 </dl>
